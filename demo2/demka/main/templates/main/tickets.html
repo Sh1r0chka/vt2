@@ -1,0 +1,77 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/ticket.css' %}">
+    <title> {% block title %}{% endblock %} </title>
+</head>
+
+<body>
+
+    <div class="bar">
+        <div class="logo">
+            <h1>НАРУШЕНИЯМ.НЕТ</h1>
+        </div>
+        <div class="buttons">
+            <button><h3><a href="{% url 'add-ticket' %}">Новое заявление</a></h3></button>
+            <button><h3><a href="{% url 'logout' %}">Выход</a></h3></button>
+        </div>
+    </div>
+
+    <div class="line"></div>
+
+    <div class="text"><h1>Ваши заявления</h1></div>
+
+    <table class="ticket-table">
+        <div class="table-form">
+            <tr>
+                <th>ФИО</th>
+                <th>Номер ТС</th>
+                <th>Описание нарушения</th>
+                <th>Статус</th>
+            </tr>
+            {% for elem in tickets %}
+            <tr>
+                <td>{{ elem.creator.last_name }} {{ elem.creator.first_name }} {{ elem.creator.third_name }}</td>
+                <td>{{ elem.number }}</td>
+                <td>{{ elem.descr }}</td>
+                <td>{{ elem.status }}
+                    {% if request.user.is_superuser %}
+                    <div class="buttons-yes-no">
+                        <div class="yes">
+                            <button><h3>Принять</h3></button>
+                        </div>
+                        <div class="no">
+                            <button><h3>Отклонить</h3></button>
+                        </div>
+                    </div>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </div>
+    </table>
+
+    <div class="line-2"></div>
+
+    <div class="footer">
+        <div class="logo">
+            <h1>НАРУШЕНИЯМ.НЕТ</h1>
+        </div>
+        <div class="img2">
+            <img src="{% static 'image/image2.png' %}">
+            <h2>Nar-NET@gmail.com</h2>
+        </div>
+        <div class="img3">
+            <img src="{% static 'image/image3.png' %}">
+            <h2>+7 (968) 714-4502</h2>
+        </div>
+    </div>
+
+</body>
+
+</html>
